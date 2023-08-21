@@ -78,7 +78,8 @@ const App = () => {
                 .create(newPerson)
                 .then(allPhonebook => {
                     
-                    setPersons(persons.concat(newPerson))
+                    // setPersons(persons.concat(newPerson))
+                    setPersons(allPhonebook)
                     setNewName('')
                     setNewNumber('')
 
@@ -93,14 +94,18 @@ const App = () => {
                 // Update person
                 const updatedPerson = {...found, number:newNumber}
                 console.log("Updated person:")
+                console.log("Updated person id:" + found.id)
                 console.log(updatedPerson)
                 phonesService
                     .update(found.id, updatedPerson)
                     .then(allPhonebook => {
+                        console.log("All persons after update:")
+                        console.log(allPhonebook)
                         setPersons(persons.map(person => person.id !== found.id ? person : updatedPerson))
                         showMessageForSeconds(`Modified ${updatedPerson.name}`)
                     })
                     .catch(error => {
+                        console.log(error)
                         showErrorForSeconds(`Information of ${found.name} was already removed from server`)
                         setPersons(persons.filter(n => n.id !== found.id))
                     })

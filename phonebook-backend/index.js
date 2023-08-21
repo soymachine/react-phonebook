@@ -108,22 +108,21 @@ app.put('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     const person = phonebook.find(phone => phone.id === id)
 
-    phonebook = phonebook.map(phone =>{
-        if(phone.id === id){
-            // Update
-            updatedPhone = {
-                "id": id,
-                "name":phone.name,
-                "number":request.params.name
-            }
-            return updatedPhone
-        }else{
-            // Nothing
-            return phone
-        }
-    })
-
     if (person) {
+        phonebook = phonebook.map(phone =>{
+            if(phone.id === id){
+                // Update
+                updatedPhone = {
+                    "id": id,
+                    "name":phone.name,
+                    "number":request.params.name
+                }
+                return updatedPhone
+            }else{
+                // Nothing
+                return phone
+            }
+        })
         response.json(phonebook)
     } else {
         response.status(404).end()
