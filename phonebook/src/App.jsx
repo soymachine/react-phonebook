@@ -23,7 +23,6 @@ const App = () => {
             .then(initialNotes => {
                 setPersons(initialNotes)
             })
-
     }
 
     useEffect(hook, [])
@@ -77,18 +76,17 @@ const App = () => {
             phonesService
                 .create(newPerson)
                 .then(allPhonebook => {
-                    
-                    // setPersons(persons.concat(newPerson))
-                    setPersons(allPhonebook)
                     setNewName('')
-                    setNewNumber('')
-
-                    console.log(persons)
-
+                    setNewNumber('')                         
                     showMessageForSeconds(`Added ${newPerson.name}`)
+
+                }).then(()=>{
+                    phonesService
+                    .getAll()
+                    .then(initialNotes => {
+                        setPersons(initialNotes)
+                    })
                 })
-
-
         }else{
             if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
                 // Update person
@@ -99,10 +97,17 @@ const App = () => {
                 phonesService
                     .update(found.id, updatedPerson)
                     .then(allPhonebook => {
-                        console.log("All persons after update:")
-                        console.log(allPhonebook)
-                        setPersons(persons.map(person => person.id !== found.id ? person : updatedPerson))
+                       
+                        // setPersons(persons.map(person => person.id !== found.id ? person : updatedPerson))
                         showMessageForSeconds(`Modified ${updatedPerson.name}`)
+
+                        phonesService
+                            .getAll()
+                            .then(initialNotes => {
+                                console.log("All persons after update:")
+                                console.log(allPhonebook)
+                                setPersons(initialNotes)
+                            })
                     })
                     .catch(error => {
                         console.log(error)

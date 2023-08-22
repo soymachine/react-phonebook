@@ -14,7 +14,6 @@ const Notification = ({ message }) => {
         padding: 10,
         marginBottom: 10,
     }
-    console.log("Aqui! " + message)
     return (
         <div style={errorStyle}>
             {message}
