@@ -80,12 +80,16 @@ const App = () => {
                     setNewNumber('')                         
                     showMessageForSeconds(`Added ${newPerson.name}`)
 
-                }).then(()=>{
+                })
+                .then(()=>{
                     phonesService
                     .getAll()
                     .then(initialNotes => {
                         setPersons(initialNotes)
                     })
+                })
+                .catch(error => {
+                    showErrorForSeconds(error.response.data.error)
                 })
         }else{
             if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
